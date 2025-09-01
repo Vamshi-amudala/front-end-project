@@ -33,7 +33,7 @@ export const Home = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
         >
-          Welcome to <span className="text-blue-400">Careerly</span>
+          Welcome to <span className="text-blue-400">CareerForge</span>
         </motion.h1>
 
         {/* Subtitle */}

@@ -72,7 +72,7 @@ export const Contact = () => {
             <p className="text-xl">
               <span className="font-semibold">Address:</span> 4-32/7, Patel Nagar, Hyderabad, Telangana, India
             </p>
-            <p className="text-gray-300 text-sm mt-4">© 2025 JobPortal. All rights reserved.</p>
+            <p className="text-gray-300 text-sm mt-4">© 2025 CareerForge. All rights reserved.</p>
           </motion.div>
 
           <div className="flex-1 bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-lg">

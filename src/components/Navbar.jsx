@@ -5,9 +5,16 @@ export const Navbar = () => {
   const navigate = useNavigate();
   return (
     <div className="flex items-center justify-between px-8 py-4 absolute top-0 left-0 w-full z-20 bg-black/60 backdrop-blur-md shadow-md">
-      <h1 className="text-white text-3xl font-extrabold cursor-pointer tracking-wide hover:scale-105 transition-transform duration-300 ease-in-out text-glow ml-6">
-        <a href="/">Careerly</a>
-      </h1>
+     <h1 className="flex items-center text-white text-3xl font-bold cursor-pointer tracking-wide hover:scale-105 transition-transform duration-300 ease-in-out text-glow ">
+  {/* Round logo */}
+  <img 
+    src="/images/logo-cf.png" 
+    alt="logo" 
+    className="w-12 h-12 rounded-full object-cover mr-3"
+  />
+  <a href="/" className="mb-2">CareerForge</a>
+</h1>
+
 
 
       <div className="flex flex-1 justify-center gap-6">

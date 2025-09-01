@@ -35,7 +35,7 @@ export const Features = () => {
           transition={{duration:1.2, ease:"easeInOut"}}
 
           >
-            Why Choose Careerly
+            Why Choose CareerForge
           </motion.h1>
 
           <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-5 text-white"
