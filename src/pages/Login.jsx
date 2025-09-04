@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { Eye, EyeOff, Loader } from "lucide-react"; 
-
+import { useAuth } from "../context/AuthContext"; 
+import { useEffect } from "react";
 // Mock form validation
 const useForm = ({ resolver }) => {
   const [values, setValues] = useState({});
@@ -80,9 +81,20 @@ const loginUser = async (data) => {
 
 export default function Login() {
   const navigate = useNavigate();
+    const { user, login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+    useEffect(() => {
+    // Redirect already logged-in users to the correct dashboard
+    if (user) {
+      const role = user.role?.toLowerCase();
+      if (role === "employer") navigate("/employer-dashboard");
+      else if (role === "job_seeker" || role === "jobseeker") navigate("/jobseeker-dashboard");
+      else navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const {
     register,
@@ -94,19 +106,18 @@ export default function Login() {
   });
 
 const onSubmit = async (data) => {
-  try {
-    setError("");
-    setSuccess("");
-    const response = await loginUser(data);
+    try {
+      setError("");
+      setSuccess("");
+      const response = await loginUser(data);
 
-    console.log("Login successful:", response);
+      console.log("Login successful:", response);
 
-    // Save user info for persistence
-    localStorage.setItem("user", JSON.stringify(response));
+      login(response);
 
-    setSuccess("Login successful! Redirecting...");
+      setSuccess("Login successful! Redirecting...");
       setTimeout(() => {
-        const role = response.role?.toLowerCase(); // "job_seeker" or "employer"
+        const role = response.role?.toLowerCase(); // normalize role
         console.log("Normalized role:", role);
 
         if (role === "employer") {
@@ -118,14 +129,12 @@ const onSubmit = async (data) => {
         }
       }, 1200);
 
-
-    reset();
-  } catch (error) {
-    console.error("Login failed:", error);
-    setError(error.message || "Login failed. Please try again.");
-  }
-};
-
+      reset();
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError(error.message || "Login failed. Please try again.");
+    }
+  };
 
   // const handleGoogleAuth = () => {
   //   // Redirect to your backend Google OAuth endpoint

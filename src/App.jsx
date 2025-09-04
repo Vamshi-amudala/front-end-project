@@ -15,6 +15,11 @@ import ResetPassword from './pages/ResetPassword';
 
 import {JobSeekerDashboard} from './pages/jobseeker/JobSeekerDashboard';
 import {EmployerDashboard} from './pages/employer/EmployerDashboard';
+// import { ProtectedRoute } from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ToastProvider from "./components/ToastProvider";
+  
+
 
 import {
   BrowserRouter as Router,
@@ -139,8 +144,28 @@ function AnimatedRoutes() {
           <Route path="/forgotPass" element={<AnimatedPage><ForgotPassword /></AnimatedPage>}/>
           <Route path="/resetPass" element={<AnimatedPage><ResetPassword/></AnimatedPage>}/>
 
-          <Route path="/jobseeker-dashboard" element={<AnimatedPage><JobSeekerDashboard /></AnimatedPage>} />
-          <Route path="/employer-dashboard" element={<AnimatedPage><EmployerDashboard /></AnimatedPage>} />
+
+          <Route
+            path="/jobseeker-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <JobSeekerDashboard />
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/employer-dashboard"
+            element={
+              <ProtectedRoute allowedRoles={["employer"]}>
+                <AnimatedPage>
+                  <EmployerDashboard />
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+          />
 
         </Routes>
       </AnimatePresence>
@@ -184,6 +209,7 @@ function App() {
       <Navbar />
       <AnimatedRoutes />
       <AnimatePresence>{isLoading && <LoadingSpinner />}</AnimatePresence>
+       <ToastProvider />
     </Router>
   );
 }

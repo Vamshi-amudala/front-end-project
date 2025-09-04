@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export const Navbar = () => {
   const navigate = useNavigate();
   const { user, role, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <div className="flex items-center justify-between px-8 py-4 absolute top-0 left-0 w-full z-20 bg-black/60 backdrop-blur-md shadow-md">
+    <div className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-8 py-4 fixed top-0 left-0 w-full z-20 bg-black/60 backdrop-blur-md shadow-md">
       {/* Logo */}
       <h1
         onClick={() => navigate("/")}
-        className="flex items-center text-white text-3xl font-bold cursor-pointer tracking-wide hover:scale-105 transition-transform duration-300 ease-in-out text-glow"
+        className="flex items-center text-white text-3xl font-bold cursor-pointer tracking-wide hover:scale-105 transition-transform duration-300 ease-in-out text-glow mb-2 sm:mb-0"
       >
         <img
           src="/images/logo-cf.png"
@@ -21,14 +24,30 @@ export const Navbar = () => {
         CareerForge
       </h1>
 
+      {/* Hamburger for Mobile */}
+      <div className="sm:hidden absolute top-4 right-4">
+        <button
+          onClick={toggleMenu}
+          className="text-white text-3xl focus:outline-none"
+          aria-label="Toggle Menu"
+        >
+          ☰
+        </button>
+      </div>
+
       {/* Middle Links */}
-      <div className="flex flex-1 justify-center gap-6">
+      <div
+        className={`flex flex-col sm:flex-row justify-center gap-6 w-full sm:w-auto transition-all duration-300 ${
+          menuOpen ? "block" : "hidden sm:flex"
+        }`}
+      >
         {["Home", "About", "Services", "Features", "FAQ", "Contact"].map(
           (item) => (
             <Link
               key={item}
               to={`/${item.toLowerCase()}`}
-              className="text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/20 hover:shadow-lg"
+              className="text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 ease-in-out hover:scale-105 hover:bg-white/20 hover:shadow-lg text-center"
+              onClick={() => setMenuOpen(false)}
             >
               {item}
             </Link>
@@ -39,7 +58,8 @@ export const Navbar = () => {
         {role === "employer" && (
           <Link
             to="/employer-dashboard"
-            className="text-yellow-400 font-semibold hover:underline"
+            className="text-yellow-400 font-semibold hover:underline text-center"
+            onClick={() => setMenuOpen(false)}
           >
             Employer Dashboard
           </Link>
@@ -48,7 +68,8 @@ export const Navbar = () => {
         {role === "job_seeker" && (
           <Link
             to="/jobseeker-dashboard"
-            className="text-green-400 font-semibold hover:underline"
+            className="text-green-400 font-semibold hover:underline text-center"
+            onClick={() => setMenuOpen(false)}
           >
             Jobseeker Dashboard
           </Link>
@@ -56,14 +77,21 @@ export const Navbar = () => {
       </div>
 
       {/* Right side (Auth section) */}
-      <div className="flex items-center gap-6">
+      <div
+        className={`flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2 sm:mt-0 ${
+          menuOpen ? "block" : "hidden sm:flex"
+        }`}
+      >
         {user ? (
           <>
-            <span className="text-white font-medium">
+            <span className="text-white font-medium text-center">
               Welcome, {user.fullname || user.email} ({role})
             </span>
             <button
-              onClick={logout}
+              onClick={() => {
+                logout();
+                setMenuOpen(false);
+              }}
               className="text-white font-semibold py-2 px-5 border border-red-500 rounded-lg shadow transition-all duration-300 ease-in-out hover:scale-105 hover:bg-red-600 hover:shadow-lg"
             >
               Logout
@@ -72,13 +100,19 @@ export const Navbar = () => {
         ) : (
           <>
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => {
+                navigate("/login");
+                setMenuOpen(false);
+              }}
               className="text-white font-semibold py-2 px-5 border border-gray-500 rounded-lg shadow transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-700 hover:shadow-lg"
             >
               Login
             </button>
             <button
-              onClick={() => navigate("/register")}
+              onClick={() => {
+                navigate("/register");
+                setMenuOpen(false);
+              }}
               className="text-white font-semibold py-2 px-5 border border-gray-500 rounded-lg shadow transition-all duration-300 ease-in-out hover:scale-105 hover:bg-gray-700 hover:shadow-lg"
             >
               Register

@@ -1,0 +1,11 @@
+import React from "react";
+
+const StatsCards = ({ children }) => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+      {children}
+    </div>
+  );
+};
+
+export default StatsCards;

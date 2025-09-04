@@ -19,16 +19,14 @@ export const Home = () => {
       {/* Overlay */}
       <motion.div
         className="absolute inset-0 bg-black/40 backdrop-brightness-50"
-        // initial={{ opacity: 0 }}
-        // animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       ></motion.div>
 
-      {/* Content */}
-      <section className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center">
+      {/* Central Content */}
+      <section className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 md:px-12">
         {/* Title */}
         <motion.h1
-          className="text-gray-200 text-5xl font-bold mb-6 drop-shadow-lg text-glow"
+          className="text-gray-200 text-3xl sm:text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg text-glow"
           initial={{ y: -80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -38,7 +36,7 @@ export const Home = () => {
 
         {/* Subtitle */}
         <motion.p
-          className="text-gray-300 text-2xl font-mono mb-8 text-glow"
+          className="text-gray-300 text-lg sm:text-2xl md:text-3xl font-mono mb-8 text-glow"
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
@@ -46,44 +44,42 @@ export const Home = () => {
           Find your dream job today
         </motion.p>
 
-        {/* Buttons with staggered animation */}
+        {/* Buttons */}
         <motion.div
-          className="flex gap-6"
+          className="flex flex-col sm:flex-row gap-4 sm:gap-6"
           initial="hidden"
           animate="visible"
           variants={{
             hidden: {},
-            visible: {
-              transition: { staggerChildren: 0.2 },
-            },
+            visible: { transition: { staggerChildren: 0.2 } },
           }}
         >
-          {/* Join Us button */}
+          {/* Join Us Button */}
           <motion.button
             onClick={() => navigate("/register")}
-            className="text-white font-semibold py-2 px-8 border border-gray-600 rounded-full shadow-lg relative overflow-hidden group"
+            className="text-white text-sm sm:text-base font-semibold py-2 px-4 sm:px-8 border border-gray-600 rounded-full shadow-lg relative overflow-hidden group"
             variants={{
               hidden: { opacity: 0, y: 30 },
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10">Join Us</span>
             <span className="absolute inset-0 bg-blue-500 opacity-0 group-hover:opacity-100 transition duration-300"></span>
           </motion.button>
 
-          {/* Explore Jobs button */}
+          {/* Explore Jobs Button */}
           <motion.button
             onClick={() => navigate("/login")}
-            className="text-white font-semibold py-2 px-8 border border-gray-600 rounded-full shadow-lg relative overflow-hidden group"
+            className="text-white text-sm sm:text-base font-semibold py-2 px-4 sm:px-8 border border-gray-600 rounded-full shadow-lg relative overflow-hidden group"
             variants={{
               hidden: { opacity: 0, y: 30 },
               visible: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10">Explore Jobs</span>

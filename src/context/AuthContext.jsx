@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const role = user?.role ? user.role.toLowerCase() : null;
 
-  // Load user from localStorage on app start
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -13,17 +13,31 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (userData) => {
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData); // 🔥 this triggers re-render immediately
-  };
+      const login = (userData) => {
+        const normalizedUser = {
+          ...userData,
+          role: userData.role?.toLowerCase() || "user", 
+        };
+        console.log(" Saving user to localStorage:", normalizedUser);
+        localStorage.setItem("user", JSON.stringify(normalizedUser));
+        setUser(normalizedUser);
+       setTimeout(()=>{
+         toast.success(`Welcome back, ${normalizedUser.fullname || "User"}!`);
+       }, 300)
+      };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null); // 🔥 this re-renders Navbar immediately
-  };
 
-  const role = user?.role?.toLowerCase() || null;
+      const logout = () => {
+        setUser(null); 
+        setTimeout(() => {
+          localStorage.removeItem("user");
+           toast.success("You have been logged out.");
+          navigate("/home");
+        }, 300);
+        // show toast
+       
+      };
+
 
   return (
     <AuthContext.Provider value={{ user, role, login, logout }}>

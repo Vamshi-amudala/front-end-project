@@ -10,7 +10,7 @@ export const JobSeekerDashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        🎯 Jobseeker Dashboard
+        Jobseeker Dashboard
       </motion.h1>
 
       {/* Dashboard Image / Banner */}
