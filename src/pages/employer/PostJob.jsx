@@ -102,6 +102,7 @@ export const Postjobs = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        toastClassName="!mt-20 !z-[10050]"
       />
     </div>
   );

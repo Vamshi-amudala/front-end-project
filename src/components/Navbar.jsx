@@ -113,6 +113,7 @@ export const Navbar = () => {
               onClick={() => {
                 logout();
                 setMenuOpen(false);
+                navigate("/home")
               }}
               className="text-white font-semibold py-2 px-5 border border-red-500 rounded-lg shadow transition-all duration-300 ease-in-out hover:scale-105 hover:bg-red-600 hover:shadow-lg"
             >

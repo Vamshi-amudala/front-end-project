@@ -7,57 +7,62 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
-// import { useNavigate } from "react-router-dom";
 
 export const EditJob = () => {
-//   const location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
-  const jobId = queryParams.get("id"); // Get job ID from URL
+  const jobId = queryParams.get("id");
 
-  const resolver = yupResolver(
-    yup.object().shape({
-      title: yup.string().required("Job title is required"),
-      description: yup.string().required("Job description is required"),
-      location: yup.string().required("Job location is required"),
-      company: yup.string().required("Company name is required"),
-      salary: yup.string().required("Salary is required"),
-      exp: yup.string().required("Experience is required"),
-      status: yup.string()
-    })
-  );
+  const schema = yup.object().shape({
+    title: yup.string().required("Job title is required"),
+    description: yup.string().required("Job description is required"),
+    location: yup.string().required("Job location is required"),
+    company: yup.string().required("Company name is required"),
+    salary: yup.number().typeError("Salary must be a number").required("Salary is required"),
+    exp: yup.number().typeError("Experience must be a number").required("Experience is required"),
+    status: yup.string().oneOf(["OPEN", "CLOSED"]).required("Status is required")
+  });
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({ resolver });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
+
   const [loading, setLoading] = useState(false);
 
-  // Fetch existing job data
   useEffect(() => {
-    if (jobId) {
-      axios.get(`http://localhost:8080/api/jobs/${jobId}`, { withCredentials: true })
-        .then(res => {
-          reset(res.data); // Populate form with fetched data
-        })
-        .catch(() => toast.error("Failed to load job details."));
-    }
+    if (!jobId) return;
+    const fetchJob = async () => {
+      try {
+        const res = await axios.get(`http://localhost:8080/api/jobs/${jobId}`, { withCredentials: true });
+        reset(res.data);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to load job details.");
+      }
+    };
+    fetchJob();
   }, [jobId, reset]);
 
   const onSubmit = async (data) => {
-    if (!data.status) data.status = "OPEN";
     setLoading(true);
+    if (!data.status) data.status = "OPEN";
+
     try {
       await axios.put(`http://localhost:8080/api/jobs/${jobId}`, data, { withCredentials: true });
       toast.success("Job updated successfully!");
-      navigate("/manage-jobs"); // Redirect to job list after edit
+      // Delay navigation to show toast
+      setTimeout(() => navigate("/manage-jobs"), 1000);
     } catch (error) {
       console.error(error);
-      toast.error(error.message || "Something went wrong. Please try again.");
+      toast.error(error.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden bg-gray-900 flex items-center justify-center">
+    <div className="relative w-full flex items-start justify-center bg-gray-900 overflow-visible pt-24 pb-6 min-h-[80vh]">
       {/* Background */}
       <motion.img
         src="/images/post-job.png"
@@ -67,48 +72,36 @@ export const EditJob = () => {
         animate={{ scale: 1 }}
         transition={{ duration: 8, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
       />
-      <motion.div className="absolute inset-0 bg-black/50 backdrop-brightness-100" transition={{ duration: 1 }} />
+      <motion.div className="absolute inset-0 bg-black/50" />
 
       {/* Form */}
-      <div className="relative z-10 w-full max-w-md p-8 glassmorphism rounded-2xl shadow-xl backdrop-blur-md bg-white/10 border border-white/20 mt-10">
-        <motion.h1 className="text-white text-3xl font-bold text-center mb-6">
-          Edit Job
-        </motion.h1>
-
+      <div className="relative z-10 w-full max-w-md p-6 glassmorphism rounded-xl shadow-xl backdrop-blur-md bg-white/10 border border-white/20">
+        <motion.h1 className="text-white text-3xl font-bold text-center mb-6">Edit Job</motion.h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <input {...register("title")} placeholder="Job Title"
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("title")} placeholder="Job Title" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
           {errors.title && <p className="text-red-400 text-sm">{errors.title.message}</p>}
 
-          <textarea {...register("description")} placeholder="Description" rows={4}
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <textarea {...register("description")} placeholder="Description" rows={3} className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
           {errors.description && <p className="text-red-400 text-sm">{errors.description.message}</p>}
 
-          <input {...register("location")} placeholder="Location"
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("location")} placeholder="Location" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
           {errors.location && <p className="text-red-400 text-sm">{errors.location.message}</p>}
 
-          <input {...register("company")} placeholder="Company"
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("company")} placeholder="Company" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
           {errors.company && <p className="text-red-400 text-sm">{errors.company.message}</p>}
 
-          <input {...register("salary")} type="number" placeholder="Salary"
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("salary")} type="number" placeholder="Salary" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
           {errors.salary && <p className="text-red-400 text-sm">{errors.salary.message}</p>}
 
-          <input {...register("exp")} type="number" placeholder="Experience"
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("exp")} type="number" placeholder="Experience" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
           {errors.exp && <p className="text-red-400 text-sm">{errors.exp.message}</p>}
 
-          <select {...register("status")}
-            className="w-full p-3 bg-white/10 border border-white/30 rounded-xl text-white placeholder-white/70 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all">
-            <option value="OPEN">Open</option>
-            <option value="CLOSED">Closed</option>
+          <select {...register("status")} className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all">
+            <option value="OPEN" className="text-black">Open</option>
+            <option value="CLOSED" className="text-black">Closed</option>
           </select>
 
-          <button type="submit"
-            disabled={loading}
-            className="w-full py-3 mt-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
+          <button type="submit" disabled={loading} className="w-full py-3 mt-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
             {loading ? "Updating..." : "Update Job"}
           </button>
         </form>
@@ -123,6 +116,7 @@ export const EditJob = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+         toastClassName="!mt-20 !z-[10050]"
       />
     </div>
   );

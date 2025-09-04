@@ -5,6 +5,11 @@ import axios from "axios";
 import { Eye, EyeOff, Loader } from "lucide-react"; 
 import { useAuth } from "../context/AuthContext"; 
 import { useEffect } from "react";
+import 'react-toastify/dist/ReactToastify.css';
+// import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+
+
 // Mock form validation
 const useForm = ({ resolver }) => {
   const [values, setValues] = useState({});
@@ -116,6 +121,7 @@ const onSubmit = async (data) => {
       login(response);
 
       setSuccess("Login successful! Redirecting...");
+      toast.success("Login successful! Redirecting...")
       setTimeout(() => {
         const role = response.role?.toLowerCase(); // normalize role
         console.log("Normalized role:", role);
@@ -142,7 +148,7 @@ const onSubmit = async (data) => {
   // };
 
   return (
-    <div className="relative w-full h-screen flex justify-center items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900">
+    <div className="relative w-full h-screen flex justify-center items-center overflow-visible bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900">
       <motion.img
         src="/images/login-page.jpg"
         alt="Background"
@@ -299,6 +305,18 @@ const onSubmit = async (data) => {
           </p>
         </div>
       </div>
+
+        <ToastContainer
+    position="top-center"
+    autoClose={3000}
+    hideProgressBar={false}
+    newestOnTop
+    closeOnClick
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    toastClassName="!z-[10050]" // ensure it's above navbar
+  />
     </div>
   );
 }

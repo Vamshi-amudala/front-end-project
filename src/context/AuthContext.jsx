@@ -31,10 +31,10 @@ export const AuthProvider = ({ children }) => {
         setUser(null); 
         setTimeout(() => {
           localStorage.removeItem("user");
-           toast.success("You have been logged out.");
           navigate("/home");
-        }, 300);
-        // show toast
+           toast.success("You have been logged out.");
+        }, 1000);
+        // 
        
       };
 

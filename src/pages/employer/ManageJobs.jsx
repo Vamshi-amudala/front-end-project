@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 export const ManageJobs = () => {
+  const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -145,10 +146,11 @@ export const ManageJobs = () => {
                 )}
                 <button
                   className="bg-transparent border-2 border-orange-500 text-white px-4 py-2 rounded-xl hover:bg-orange-600"
-                  onClick={() => window.location.href = `/edit-job?id=${selectedJob.id}`}
+                  onClick={() => navigate(`/edit-job?id=${selectedJob.id}`)}
                 >
                   Edit Details
                 </button>
+
                 <button
                   className="border-gray-400 bg-transparent border-2 text-white px-4 py-2 rounded-xl hover:bg-teal-500"
                   onClick={() => setSelectedJob(null)}
