@@ -30,7 +30,7 @@ export default function ForgotPassword() {
       setIsSubmitting(true);
 
       // Call your backend
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await fetch("http://localhost:8080/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
@@ -47,7 +47,9 @@ export default function ForgotPassword() {
 
       // After 1.5s, redirect to reset page with email in state
       setTimeout(() => {
-        navigate("/reset-pass", { state: { email } });
+        // After successful OTP request
+        localStorage.setItem("resetEmail", email);
+        navigate("/reset-pass");
       }, 1500);
     } catch (err) {
       console.error("Forgot password failed:", err);

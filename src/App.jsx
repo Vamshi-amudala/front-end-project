@@ -142,7 +142,7 @@ function AnimatedRoutes() {
           <Route path="/login" element={<AnimatedPage><Login /></AnimatedPage>} />
           <Route path="/register" element={<AnimatedPage><Register /></AnimatedPage>} />
           <Route path="/forgotPass" element={<AnimatedPage><ForgotPassword /></AnimatedPage>}/>
-          <Route path="/resetPass" element={<AnimatedPage><ResetPassword/></AnimatedPage>}/>
+          <Route path="/reset-pass" element={<AnimatedPage><ResetPassword/></AnimatedPage>}/>
 
 
           <Route

@@ -1,71 +1,26 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import axios from "axios";
 
-// Mock navigate function
-
-// Mock form validation
-const useForm = ({ resolver }) => {
+const useForm = () => {
   const [values, setValues] = useState({});
-  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const register = (name) => ({
     name,
-    onChange: (e) => {
-      setValues({ ...values, [name]: e.target.value });
-      if (errors[name]) {
-        setErrors({ ...errors, [name]: null });
-      }
-    },
-    value: values[name] || ""
+    value: values[name] || "",
+    onChange: (e) => setValues({ ...values, [name]: e.target.value }),
   });
 
-  const handleSubmit = (onSubmit) => (e) => {
+  const handleSubmit = (callback) => (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Mock validation
-    const newErrors = {};
-    if (!values.otp) newErrors.otp = { message: "OTP is required" };
-    else if (values.otp.length !== 6) newErrors.otp = { message: "OTP must be 6 digits" };
-
-    if (!values.newPassword) newErrors.newPassword = { message: "New password is required" };
-    else if (values.newPassword.length < 6) newErrors.newPassword = { message: "Password must be at least 6 characters" };
-
-    if (!values.confirmPassword) newErrors.confirmPassword = { message: "Please confirm your password" };
-    else if (values.newPassword !== values.confirmPassword) newErrors.confirmPassword = { message: "Passwords don't match" };
-
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setIsSubmitting(false);
-      return;
-    }
-
-    // Mock API call
-    setTimeout(() => {
-      onSubmit(values);
-      setIsSubmitting(false);
-    }, 1500);
+    callback(values, setIsSubmitting);
   };
 
-  const reset = () => {
-    setValues({});
-    setErrors({});
-  };
+  const reset = () => setValues({});
 
-  return {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset
-  };
-};
-
-// Mock API function
-const resetPassword = async (data) => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  return { success: true, message: "Password reset successfully" };
+  return { register, values, handleSubmit, isSubmitting, setIsSubmitting, reset };
 };
 
 export default function ResetPassword() {
@@ -75,65 +30,64 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm({
-    resolver: null,
-  });
+  const { register, handleSubmit, isSubmitting, setIsSubmitting } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (values) => {
     try {
       setError("");
       setSuccess("");
-      const response = await resetPassword(data);
+      setIsSubmitting(true);
 
-      console.log("Reset successful:", response);
-      setSuccess("Password reset successfully! Redirecting to login...");
-      
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      const email = localStorage.getItem("resetEmail");
+      if (!email) throw new Error("Email not found. Go back to Forgot Password.");
 
-      reset();
-    } catch (error) {
-      console.error("Reset failed:", error);
-      setError(error.message || "Reset failed. Please try again.");
+      if (!values.otp || values.otp.length !== 6) throw new Error("OTP must be 6 digits");
+      if (!values.newPassword || values.newPassword.length < 6)
+        throw new Error("New password must be at least 6 characters");
+      if (values.newPassword !== values.confirmPassword) throw new Error("Passwords do not match");
+
+      const res = await axios.post(
+        "http://localhost:8080/api/auth/reset-password-with-otp",
+        {
+          email,
+          otp: values.otp,
+          newPassword: values.newPassword,
+          confirmPassword: values.confirmPassword,
+        },
+        { withCredentials: true }
+      );
+
+      // Backend returns plain text message
+      setSuccess(res.data || "Password reset successfully! Redirecting...");
+      localStorage.removeItem("resetEmail");
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (err) {
+      // Handle backend error (could be plain text or JSON)
+      let msg =
+        err.response?.data?.message ||
+        err.response?.data ||
+        err.message ||
+        "Reset failed";
+      setError(msg);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleBackToLogin = () => {
-    navigate("/login");
-  };
-
-  const handleResendOTP = () => {
-    console.log("Resending OTP...");
-    // Mock resend OTP logic
-    alert("OTP sent to your email!");
-  };
+  const handleBackToLogin = () => navigate("/login");
+  const handleResendOTP = () => alert("OTP sent to your email!");
 
   return (
     <div className="relative w-full h-screen flex justify-center items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900">
-      {/* Background Image */}
       <motion.img
         src="/images/login-page.jpg"
         alt="Background"
         className="absolute w-full h-full object-cover blur-sm scale-105 animate-pulse"
-        style={{
-          animation: "pulse 8s ease-in-out infinite"
-        }}
       />
-      
-      {/* Enhanced Background with subtle animation */}
       <div className="absolute w-full h-full bg-gradient-to-br from-emerald-900/30 via-gray-900/50 to-teal-900/40 animate-pulse" />
       <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-emerald-900/50" />
 
-      {/* Glassmorphic Form */}
       <div className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl backdrop-brightness-75">
-        {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-white drop-shadow-lg">
             Reset Password
@@ -143,38 +97,28 @@ export default function ResetPassword() {
           </h2>
         </div>
 
-        {/* Success Message */}
         {success && (
           <div className="mb-4 p-3 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-sm text-center">
             {success}
           </div>
         )}
 
-        {/* Error Message */}
         {error && (
           <div className="mb-4 p-3 rounded-xl bg-red-500/20 border border-red-400/40 text-red-300 text-sm text-center">
             {error}
           </div>
         )}
 
-        {/* OTP Field */}
+        {/* OTP */}
         <div className="mb-4">
-          <label className="block text-white/90 text-sm mb-2" htmlFor="otp">
-            Verification Code (OTP)
-          </label>
+          <label className="block text-white/90 text-sm mb-2">Verification Code (OTP)</label>
           <input
-            id="otp"
             type="text"
             maxLength="6"
             {...register("otp")}
             placeholder="Enter 6-digit OTP"
             className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 text-center text-lg tracking-widest"
           />
-          {errors.otp && (
-            <p className="text-red-400 text-sm mt-1" role="alert">
-              {errors.otp.message}
-            </p>
-          )}
           <button
             type="button"
             onClick={handleResendOTP}
@@ -184,13 +128,10 @@ export default function ResetPassword() {
           </button>
         </div>
 
-        {/* New Password Field */}
+        {/* New Password */}
         <div className="mb-4 relative">
-          <label className="block text-white/90 text-sm mb-2" htmlFor="newPassword">
-            New Password
-          </label>
+          <label className="block text-white/90 text-sm mb-2">New Password</label>
           <input
-            id="newPassword"
             type={showNewPassword ? "text" : "password"}
             {...register("newPassword")}
             placeholder="Enter your new password"
@@ -200,24 +141,15 @@ export default function ResetPassword() {
             type="button"
             onClick={() => setShowNewPassword(!showNewPassword)}
             className="absolute right-4 top-9 text-white/70 hover:text-emerald-300 text-sm transition-colors"
-            aria-label={showNewPassword ? "Hide password" : "Show password"}
           >
             {showNewPassword ? "Hide" : "Show"}
           </button>
-          {errors.newPassword && (
-            <p className="text-red-400 text-sm mt-1" role="alert">
-              {errors.newPassword.message}
-            </p>
-          )}
         </div>
 
-        {/* Confirm Password Field */}
+        {/* Confirm Password */}
         <div className="mb-6 relative">
-          <label className="block text-white/90 text-sm mb-2" htmlFor="confirmPassword">
-            Confirm New Password
-          </label>
+          <label className="block text-white/90 text-sm mb-2">Confirm New Password</label>
           <input
-            id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
             {...register("confirmPassword")}
             placeholder="Confirm your new password"
@@ -227,18 +159,11 @@ export default function ResetPassword() {
             type="button"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className="absolute right-4 top-9 text-white/70 hover:text-emerald-300 text-sm transition-colors"
-            aria-label={showConfirmPassword ? "Hide password" : "Show password"}
           >
             {showConfirmPassword ? "Hide" : "Show"}
           </button>
-          {errors.confirmPassword && (
-            <p className="text-red-400 text-sm mt-1" role="alert">
-              {errors.confirmPassword.message}
-            </p>
-          )}
         </div>
 
-        {/* Reset Password Button */}
         <button
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
@@ -247,7 +172,6 @@ export default function ResetPassword() {
           {isSubmitting ? "Resetting Password..." : "Reset Password"}
         </button>
 
-        {/* Footer Links */}
         <div className="text-center">
           <button
             type="button"

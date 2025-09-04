@@ -21,7 +21,7 @@ export const Navbar = () => {
           alt="logo"
           className="w-12 h-12 rounded-full object-cover mr-3"
         />
-        CareerForge
+        <a href="/">CareerForge</a>
       </h1>
 
       {/* Hamburger for Mobile */}
