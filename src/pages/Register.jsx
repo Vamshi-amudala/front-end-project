@@ -7,9 +7,9 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 
-// ✅ Schema
+
 const schema = yup.object().shape({
-  fullname: yup.string().required("Fullname is required"),
+  fullName: yup.string().required("Fullname is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup
     .string()
@@ -31,18 +31,35 @@ export const Register = () => {
     resolver: yupResolver(schema),
   });
 
-  // ✅ Submit handler
+
   const onSubmit = async (data) => {
-    try {
-      const response = await registerUser(data);
-      console.log("Register successful:", response);
-      navigate("/login");
-      reset();
-    } catch (error) {
-      console.error("Register failed");
-      alert(error.message);
-    }
-  };
+  try {
+    // 🚀 Extra guard against double submit
+    if (isSubmitting) return;
+
+    const response = await registerUser(data);
+
+    console.log("Register successful:", response);
+
+        localStorage.setItem(
+          "registeredUser",
+          JSON.stringify({
+            email: response.email,
+            role: response.role,
+          })
+        );
+
+
+    alert("Registration successful! Please login.");
+    navigate("/login");
+    reset();
+  } catch (error) {
+    console.error("Register failed", error);
+    alert(error.message || "Something went wrong. Please try again.");
+  }
+};
+
+
 
   const handleGoogleAuth = () => {
     alert("Google Auth Coming Soon ✨");
@@ -82,12 +99,12 @@ export const Register = () => {
             <input
               type="text"
               placeholder="Enter your full name"
-              {...register("fullname")}
+              {...register("fullName")}
               className="w-full px-3 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 transition-all duration-300"
             />
-            {errors.fullname && (
+            {errors.fullName && (
               <p className="text-red-400 text-sm mt-1">
-                {errors.fullname.message}
+                {errors.fullName.message}
               </p>
             )}
           </div>
@@ -139,10 +156,10 @@ export const Register = () => {
               <option value="" disabled selected hidden>
                 Select Role
               </option>
-              <option value="Employer" className="text-black">
+              <option  value="EMPLOYER"  className="text-black">
                 Employer
               </option>
-              <option value="Jobseeker" className="text-black">
+              <option value="JOB_SEEKER" className="text-black">
                 Jobseeker
               </option>
             </select>

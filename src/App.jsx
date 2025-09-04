@@ -12,6 +12,10 @@ import Login from "./pages/Login";
 import { Register } from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+
+import {JobSeekerDashboard} from './pages/jobseeker/JobSeekerDashboard';
+import {EmployerDashboard} from './pages/employer/EmployerDashboard';
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -134,6 +138,9 @@ function AnimatedRoutes() {
           <Route path="/register" element={<AnimatedPage><Register /></AnimatedPage>} />
           <Route path="/forgotPass" element={<AnimatedPage><ForgotPassword /></AnimatedPage>}/>
           <Route path="/resetPass" element={<AnimatedPage><ResetPassword/></AnimatedPage>}/>
+
+          <Route path="/jobseeker-dashboard" element={<AnimatedPage><JobSeekerDashboard /></AnimatedPage>} />
+          <Route path="/employer-dashboard" element={<AnimatedPage><EmployerDashboard /></AnimatedPage>} />
 
         </Routes>
       </AnimatePresence>
