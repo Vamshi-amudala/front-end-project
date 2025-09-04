@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import StatsCard from "../../components/StatsCard";
-import StatsCards from "../../components/tatsCards";
+import StatsCards from "../../components/StatsCards";
+import { Postjobs } from "./PostJob";
 
 export const EmployerDashboard = () => {
   const [activeJobs, setActiveJobs] = useState([]);
   const [applications, setApplications] = useState([]);
+  
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -20,7 +22,7 @@ export const EmployerDashboard = () => {
 
     const fetchApplications = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/applications/my-jobs", { withCredentials: true });
+        const res = await axios.get("http://localhost:8080/api/jobs/my", { withCredentials: true });
         setApplications(res.data);
       } catch (err) {
         console.error("Failed to fetch applications:", err);
@@ -32,7 +34,7 @@ export const EmployerDashboard = () => {
   }, []);
 
   // Calculate metrics
-  const pendingApplications = applications.filter(app => app.status === "UNDER_REVIEW");
+  const pendingApplications = applications.filter(app => app.status === "UNDER_REVIEW" || app.status === "APPLIED");
   const hiredCandidates = applications.filter(app => app.status === "SELECTED");
   const totalApplications = applications;
 

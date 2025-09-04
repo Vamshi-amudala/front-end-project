@@ -18,7 +18,9 @@ import {EmployerDashboard} from './pages/employer/EmployerDashboard';
 // import { ProtectedRoute } from "./components/ProtectedRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ToastProvider from "./components/ToastProvider";
-  
+import { Postjobs } from './pages/employer/PostJob';
+import { ManageJobs } from './pages/employer/ManageJobs';
+import { EditJob } from './pages/employer/EditJob';
 
 
 import {
@@ -166,7 +168,36 @@ function AnimatedRoutes() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+              path="/post-job"
+              element={
+                <ProtectedRoute allowedRoles={["employer"]}>
+                  <AnimatedPage>
+                    <Postjobs />
+                  </AnimatedPage>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage-jobs"
+              element={
+                <ProtectedRoute allowedRoles={["employer"]}>
+                  <AnimatedPage>
+                    <ManageJobs />
+                  </AnimatedPage>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit-job"
+              element={
+                <ProtectedRoute allowedRoles={["employer"]}>
+                  <AnimatedPage>
+                    <EditJob />
+                  </AnimatedPage>
+                </ProtectedRoute>
+              }
+            />
         </Routes>
       </AnimatePresence>
     </div>
