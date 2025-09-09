@@ -42,7 +42,7 @@ export const ManageJobs = () => {
       />
       <motion.div className="absolute inset-0 bg-black/40 backdrop-brightness-90"></motion.div>
 
-      {/* Content */}
+
       <div className="absolute inset-0 p-10 overflow-auto mt-10">
         <motion.h1 className="text-4xl text-white font-bold mb-6 text-center mt-3 font-serif"
         initial={{ y:-50, opacity: 0.5 }}
@@ -56,15 +56,15 @@ export const ManageJobs = () => {
         <div className="grid grid-rows-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-5  ">
           {jobs.map(job => (
            <motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5, ease: "easeInOut" }}
-  key={job.id}
-  className="border-gray-300 filter p-10 cursor-pointer hover:scale-105 transition-transform glassmorphism rounded-2xl shadow-xl bg-white/15 border-white/40 backdrop-blur-lg"
-  whileHover={{ scale: 1.05 }}
-  onClick={() => setSelectedJob(job)}
->
-  {/* Job Title */}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            key={job.id}
+            className="border-gray-300 filter p-10 cursor-pointer hover:scale-105 transition-transform glassmorphism rounded-2xl shadow-xl bg-white/15 border-white/40 backdrop-blur-lg"
+            whileHover={{ scale: 1.05 }}
+            onClick={() => setSelectedJob(job)}
+          >
+
   <h2 className="text-2xl font-bold text-slate-100 font-sans tracking-wide">
     {job.title}{" "}
     <small
@@ -78,7 +78,7 @@ export const ManageJobs = () => {
     </small>
   </h2>
 
-  {/* Company & Package */}
+
   <p className="mt-3">
     <span className="text-gray-400 font-semibold">Company:</span>{" "}
     <span className="text-slate-100">{job.company}</span> |{" "}
@@ -86,7 +86,7 @@ export const ManageJobs = () => {
     <span className="text-emerald-300 font-medium">{job.salary}</span>
   </p>
 
-  {/* Location & Experience */}
+
   <p className="mt-1">
     <span className="text-gray-400 font-semibold">Location:</span>{" "}
     <span className="text-slate-100">{job.location}</span> |{" "}
@@ -94,7 +94,7 @@ export const ManageJobs = () => {
     <span className="text-sky-300 font-medium">{job.exp} yrs</span>
   </p>
 
-  {/* Requirements */}
+
   <p className="mt-3 leading-relaxed">
     <span className="text-gray-300 font-bold">Requirements:</span>{" "}
     <span className="text-gray-200 font-sans">{job.description}</span>
@@ -105,7 +105,7 @@ export const ManageJobs = () => {
         </div>
       </div>
 
-      {/* Job Detail Modal */}
+     
       <AnimatePresence>
         {selectedJob && (
           <motion.div

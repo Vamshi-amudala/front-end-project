@@ -191,7 +191,7 @@ export const ViewApplicants = () => {
                   href={app.resumeUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block mt-2 text-emerald-300 hover:underline"
+                  className="inline-block mt-2 text-emerald-300 hover:underline cursor-pointer"
                 >
                   📄 View Resume
                 </a>

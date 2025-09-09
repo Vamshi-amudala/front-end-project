@@ -12,7 +12,7 @@ export const Profile = () => {
       const res = await axios.get("http://localhost:8080/users/profile", {
         withCredentials: true,
       });
-      setProfile(res.data); // store profile
+      setProfile(res.data);
     } catch (err) {
       setError(err.response ? err.response.data : "Network Error");
     } finally {
@@ -26,7 +26,7 @@ export const Profile = () => {
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* Background image with subtle zoom animation */}
+      
       <motion.img
         src="/images/about-page.jpg"
         alt="profile"
@@ -37,7 +37,7 @@ export const Profile = () => {
       />
 
       <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center mt-16 text-white p-4 overflow-y-auto">
-        {/* Page title */}
+        
         <motion.h1
           initial={{ opacity: 0, y: -25 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,14 +47,14 @@ export const Profile = () => {
           Profile
         </motion.h1>
 
-        {/* Loading / Error */}
+        
         {loading && <p className="mt-4 text-gray-300">Loading profile...</p>}
         {error && <p className="mt-4 text-red-400">{error}</p>}
 
-        {/* Profile Details */}
+       
         {profile && (
           <>
-            {/* Candidate Info */}
+          
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export const Profile = () => {
               <p><span className="text-teal-400 font-semibold">Education:</span> {profile.education}</p>
             </motion.div>
 
-            {/* Employer / Company Info (if available) */}
+           
             {(profile.companyName || profile.companyWebsite || profile.designation) && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}

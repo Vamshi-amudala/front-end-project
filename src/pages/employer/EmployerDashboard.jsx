@@ -11,7 +11,7 @@ export const EmployerDashboard = () => {
   const [applications, setApplications] = useState([]);
   const [profile, setProfile] = useState(null);
 
-  // Fetch dashboard data
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -45,7 +45,7 @@ export const EmployerDashboard = () => {
     fetchProfile();
   }, []);
 
-  // Calculate metrics
+
   const pendingApplications = applications.filter(
     app => app.status === "UNDER_REVIEW" || app.status === "APPLIED"
   );
@@ -54,7 +54,7 @@ export const EmployerDashboard = () => {
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br">
-      {/* Animated Background */}
+    
       <motion.img
         src="/images/emp-dash.png"
         className="w-full h-full object-cover blur-sm scale-110"
@@ -68,7 +68,7 @@ export const EmployerDashboard = () => {
         className="absolute inset-0 z-10 gap-4 bg-black/40 backdrop-brightness-90 p-6 overflow-y-auto"
         transition={{ duration: 1 }}
       >
-        {/* Welcome Text */}
+     
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ export const EmployerDashboard = () => {
         </motion.h1>
         
 
-        {/* Stats Cards Section */}
+       
         <section className="mb-6">
           <StatsCards>
             {[
@@ -99,7 +99,7 @@ export const EmployerDashboard = () => {
           </StatsCards>
         </section>
 
-        {/* Compact Profile Card at the Bottom */}
+        
           <p className="text-2xl text-gray-300 mt-8 text-center font-serif">
             Here’s a snapshot of your hiring progress. Stay on top of your applications and active jobs!
           </p>

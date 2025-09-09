@@ -51,7 +51,7 @@ export const EditJob = () => {
     try {
       await axios.put(`http://localhost:8080/api/jobs/${jobId}`, data, { withCredentials: true });
       toast.success("Job updated successfully!");
-      // Delay navigation to show toast
+     
       setTimeout(() => navigate("/manage-jobs"), 1000);
     } catch (error) {
       console.error(error);
@@ -63,7 +63,7 @@ export const EditJob = () => {
 
   return (
     <div className="relative w-full flex items-start justify-center bg-gray-900 overflow-hidden pt-24 pb-6 min-h-[80vh]">
-      {/* Background */}
+      
       <motion.img
         src="/images/post-job.png"
         alt="post-job"
@@ -74,7 +74,7 @@ export const EditJob = () => {
       />
       <motion.div className="absolute inset-0 bg-black/50" />
 
-      {/* Form */}
+     
       <div className="relative z-10 w-full max-w-md p-6 glassmorphism rounded-xl shadow-xl backdrop-blur-md bg-white/10 border border-white/20">
         <motion.h1 className="text-white text-3xl font-bold text-center mb-6">Edit Job</motion.h1>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">

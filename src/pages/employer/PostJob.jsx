@@ -26,13 +26,12 @@ export const Postjobs = () => {
   try {
     await axios.post("http://localhost:8080/api/jobs", data, { withCredentials: true });
     
-    // Show success toast
+   
     toast.success("Job posted successfully!");
 
-    // Clear form fields
-    reset(); // this works for RHF
-
-    // Optional: scroll to top or focus first field
+    
+    reset(); 
+   
     document.querySelector('input[name="title"]')?.focus();
 
   } catch (error) {
