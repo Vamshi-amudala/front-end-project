@@ -13,7 +13,7 @@ export const Home = () => {
         className="w-full h-full object-cover blur-sm scale-110"
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 6, ease: "easeInOut" }}
+        transition={{ duration: 6, ease: "easeInOut", repeat:Infinity, repeatType:"reverse" }}
       />
 
       {/* Overlay */}

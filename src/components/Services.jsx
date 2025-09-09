@@ -10,7 +10,7 @@ export const Services = () => {
         className="absolute top-0 left-0 w-full h-full object-cover blur-sm scale-105"
         initial={{ scale: 1.4 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 8, ease: "easeInOut" }}
+        transition={{ duration: 8, ease: "easeInOut",repeat:Infinity, repeatType:"reverse" }}
       />
 
       <div className="absolute inset-0 bg-black/40 backdrop-brightness-50">

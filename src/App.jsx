@@ -22,6 +22,7 @@ import { Postjobs } from './pages/employer/PostJob';
 import { ManageJobs } from './pages/employer/ManageJobs';
 import { EditJob } from './pages/employer/EditJob';
 import { ViewApplicants } from './pages/employer/ViewApplicants';
+import { Profile } from './pages/employer/Profile';
 
 import {
   BrowserRouter as Router,
@@ -207,6 +208,16 @@ function AnimatedRoutes() {
                   </AnimatedPage>
                 </ProtectedRoute>
               }
+            />
+            <Route
+            path='/profile'
+            element={
+              <ProtectedRoute allowedRoles={["employer"]}>
+                <AnimatedPage>
+                  <Profile/>
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
             />
         </Routes>
       </AnimatePresence>

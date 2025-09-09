@@ -47,7 +47,7 @@ export const EmployerDashboard = () => {
         alt="emp-dash"
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 8, ease: "easeInOut", repeat: Infinity }}
+        transition={{ duration: 8, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
       />
 
       <motion.div

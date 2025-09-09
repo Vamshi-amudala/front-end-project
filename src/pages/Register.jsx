@@ -74,7 +74,7 @@ export const Register = () => {
         className="absolute w-full h-full object-cover blur-sm scale-105"
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", repeatType: "reverse" }}
       />
       <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-emerald-900/40" />
 

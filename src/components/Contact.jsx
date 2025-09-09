@@ -54,7 +54,7 @@ export const Contact = () => {
 
         initial={{scale:1.3}}
         animate={{scale:1}}
-        transition={{duration:8, ease:"easeInOut"}}
+        transition={{duration:8, ease:"easeInOut", repeat:Infinity, repeatType:"reverse"}}
       />
 
       <div className="absolute inset-0 bg-black/50 backdrop-brightness-75 flex items-center justify-center px-6 font-mono">

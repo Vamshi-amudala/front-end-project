@@ -36,7 +36,7 @@ export const FAQ = () => {
 
         initial={{scale:1.3}}
         animate={{scale:1}}
-        transition={{duration:7, ease:"easeInOut"}}
+        transition={{duration:7, ease:"easeInOut", repeat:Infinity, repeatType:"reverse"}}
       />
 
       {/* Overlay */}

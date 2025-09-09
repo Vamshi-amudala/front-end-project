@@ -155,7 +155,7 @@ const onSubmit = async (data) => {
         className="absolute w-full h-full object-cover blur-sm scale-105"
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 8, repeat: Infinity,repeatType:"reverse", ease: "easeInOut" }}
       />
 
       {/* Enhanced Background */}

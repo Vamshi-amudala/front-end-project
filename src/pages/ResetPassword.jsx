@@ -83,6 +83,9 @@ export default function ResetPassword() {
         src="/images/login-page.jpg"
         alt="Background"
         className="absolute w-full h-full object-cover blur-sm scale-105 animate-pulse"
+        initial={{scale:1.3}}
+        animate={{scale:1}}
+        transition={{duration:8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut"}}
       />
       <div className="absolute w-full h-full bg-gradient-to-br from-emerald-900/30 via-gray-900/50 to-teal-900/40 animate-pulse" />
       <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-emerald-900/50" />
