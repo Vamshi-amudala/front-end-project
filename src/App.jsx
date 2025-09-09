@@ -21,7 +21,7 @@ import ToastProvider from "./components/ToastProvider";
 import { Postjobs } from './pages/employer/PostJob';
 import { ManageJobs } from './pages/employer/ManageJobs';
 import { EditJob } from './pages/employer/EditJob';
-
+import { ViewApplicants } from './pages/employer/ViewApplicants';
 
 import {
   BrowserRouter as Router,
@@ -194,6 +194,16 @@ function AnimatedRoutes() {
                 <ProtectedRoute allowedRoles={["employer"]}>
                   <AnimatedPage>
                     <EditJob />
+                  </AnimatedPage>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/view-applicants'
+              element={
+                <ProtectedRoute allowedRoles={["employer"]}>
+                  <AnimatedPage>
+                    <ViewApplicants />
                   </AnimatedPage>
                 </ProtectedRoute>
               }

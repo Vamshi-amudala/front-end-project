@@ -45,8 +45,8 @@ export const ManageJobs = () => {
       {/* Content */}
       <div className="absolute inset-0 p-10 overflow-auto mt-10">
         <motion.h1 className="text-4xl text-white font-bold mb-6 text-center mt-3 font-serif"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ y:-50, opacity: 0.5 }}
+        animate={{ y:0, opacity: 1 }}
         transition={{ duration: 1 }}
         >Manage Jobs</motion.h1>
 
