@@ -87,7 +87,7 @@ export const Register = () => {
         <h2 className="text-2xl font-extrabold mb-6 text-center text-white drop-shadow-lg">
           Create your account
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-500 to-sky-500 animate-pulse text-md">
-            Begin your new journey 🚀
+            Begin your new journey with us!
           </span>
         </h2>
 

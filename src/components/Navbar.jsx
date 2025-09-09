@@ -24,7 +24,7 @@ export const Navbar = () => {
     { title: "Post Job", path: "/post-job" },
     { title: "Manage Jobs", path: "/manage-jobs" },
     { title: "View Applicants", path: "/view-applicants" },
-    { title: "Profile", path: "/profile" },
+    // { title: "Profile", path: "/profile" },
   ];
 
   const jobSeekerLinks = [
@@ -56,7 +56,8 @@ export const Navbar = () => {
           alt="logo"
           className="w-12 h-12 rounded-full object-cover mr-3"
         />
-        CareerForge
+       {/* <a href="/"> CareerForge</a> */}
+       <Link to='/'> CareerForge</Link>
       </h1>
 
       {/* Hamburger for Mobile */}
@@ -107,7 +108,7 @@ export const Navbar = () => {
         {user ? (
           <>
             <span className="text-white font-medium text-center">
-              Welcome, {user.fullname || user.email}
+              {user.fullname || user.email}
             </span>
             <button
               onClick={() => {

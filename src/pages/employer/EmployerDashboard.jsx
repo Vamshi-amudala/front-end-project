@@ -1,15 +1,17 @@
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import StatsCard from "../../components/StatsCard";
 import StatsCards from "../../components/StatsCards";
-import { Postjobs } from "./PostJob";
+import { useNavigate } from "react-router-dom";
 
 export const EmployerDashboard = () => {
+  const navigate = useNavigate();
   const [activeJobs, setActiveJobs] = useState([]);
   const [applications, setApplications] = useState([]);
-  
+  const [profile, setProfile] = useState(null);
 
+  // Fetch dashboard data
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -22,19 +24,31 @@ export const EmployerDashboard = () => {
 
     const fetchApplications = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/jobs/my", { withCredentials: true });
+        const res = await axios.get("http://localhost:8080/api/applications/employer", { withCredentials: true });
         setApplications(res.data);
       } catch (err) {
         console.error("Failed to fetch applications:", err);
       }
     };
 
+    const fetchProfile = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/users/profile", { withCredentials: true });
+        setProfile(res.data);
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
+      }
+    };
+
     fetchJobs();
     fetchApplications();
+    fetchProfile();
   }, []);
 
   // Calculate metrics
-  const pendingApplications = applications.filter(app => app.status === "UNDER_REVIEW" || app.status === "APPLIED");
+  const pendingApplications = applications.filter(
+    app => app.status === "UNDER_REVIEW" || app.status === "APPLIED"
+  );
   const hiredCandidates = applications.filter(app => app.status === "SELECTED");
   const totalApplications = applications;
 
@@ -47,33 +61,77 @@ export const EmployerDashboard = () => {
         alt="emp-dash"
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 8, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
       />
 
       <motion.div
-        className="absolute inset-0 z-10 gap-2 bg-black/40 backdrop-brightness-90 p-6"
+        className="absolute inset-0 z-10 gap-4 bg-black/40 backdrop-brightness-90 p-6 overflow-y-auto"
         transition={{ duration: 1 }}
       >
-        {/* Stats Cards Section */}
-        <section className="mt-20">
+        {/* Welcome Text */}
+        <motion.h1
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-4xl text-white font-extrabold mb-6 mt-20 text-center"
+        >
+          Welcome back, {profile?.fullName || "Employer"}!
+        </motion.h1>
         
-           <StatsCards>
+
+        {/* Stats Cards Section */}
+        <section className="mb-6">
+          <StatsCards>
             {[
-                { title: "Active Jobs", count: activeJobs.length },
-                { title: "Pending Applications", count: pendingApplications.length },
-                { title: "Hired Candidates", count: hiredCandidates.length },
-                { title: "Total Applications", count: totalApplications.length },
-            ].map((item) => (
-                <motion.div
+              { title: "Active Jobs", count: activeJobs.length, color:"gray" },
+              { title: "Pending Applications", count: pendingApplications.length, color:"orange" },
+              { title: "Hired Candidates", count: hiredCandidates.length , color:"green"},
+              { title: "Total Applications", count: totalApplications.length , color:"blue"},
+            ].map(item => (
+              <motion.div
                 key={item.title}
                 whileHover={{ scale: 1.04 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                >
-                <StatsCard title={item.title} count={item.count} />
-                </motion.div>
+              >
+                <StatsCard title={item.title} count={item.count} color={item.color} />
+              </motion.div>
             ))}
-            </StatsCards>
+          </StatsCards>
         </section>
+
+        {/* Compact Profile Card at the Bottom */}
+          <p className="text-2xl text-gray-300 mt-8 text-center font-serif">
+            Here’s a snapshot of your hiring progress. Stay on top of your applications and active jobs!
+          </p>
+        {profile && (
+         <motion.div
+            className="text-center p-1 text-gray-300  flex flex-col items-center  font-mono rounded-lg w-full h-full max-w-md mx-auto  mt-8"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+
+
+            <h2 className="text-4xl font-semibold bg-white/10 rounded-xl hover:scale-105 duration-500 cursor-pointer p-4">{profile.fullName}</h2>
+            {/* <p className="text-2xl mt-3">{profile.email}</p> */}
+            {profile.companyName && <p className="text-2xl mt-3">{profile.companyName}</p>}
+            <div className="mt-8 flex gap-5 font-sans justify-center">
+              <button
+                onClick={() => navigate("/profile")}
+                className="px-4 py-2 border-2 border-teal-700 rounded-lg hover:bg-teal-500 hover:scale-105 transition-transform duration-1000 text-white"
+              >
+                View Full Profile
+              </button>
+              <button
+                onClick={() => navigate("/profile/edit")}
+                className="px-4 py-2 border-2 border-yellow-600 rounded-lg hover:bg-orange-600 hover:scale-105 transition-transform duration-1000 text-white"
+              >
+                Update Profile
+              </button>
+            </div>
+          </motion.div>
+
+        )}
       </motion.div>
     </div>
   );

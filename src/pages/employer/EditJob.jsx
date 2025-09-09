@@ -62,7 +62,7 @@ export const EditJob = () => {
   };
 
   return (
-    <div className="relative w-full flex items-start justify-center bg-gray-900 overflow-visible pt-24 pb-6 min-h-[80vh]">
+    <div className="relative w-full flex items-start justify-center bg-gray-900 overflow-hidden pt-24 pb-6 min-h-[80vh]">
       {/* Background */}
       <motion.img
         src="/images/post-job.png"
