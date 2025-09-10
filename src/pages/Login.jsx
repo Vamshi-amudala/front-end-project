@@ -148,7 +148,7 @@ const onSubmit = async (data) => {
   // };
 
   return (
-    <div className="relative w-full h-screen flex justify-center items-center overflow-visible bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900">
+    <div className="relative w-full h-screen flex justify-center items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900">
       <motion.img
         src="/images/login-page.jpg"
         alt="Background"

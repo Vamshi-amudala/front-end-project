@@ -24,7 +24,7 @@ import { EditJob } from './pages/employer/EditJob';
 import { ViewApplicants } from './pages/employer/ViewApplicants';
 import { Profile } from './pages/employer/Profile';
 import { UpdateProfile } from './pages/employer/UpdateProfile';
-
+import { ViewJobs } from './pages/jobseeker/ViewJobs';
 import {
   BrowserRouter as Router,
   Routes,
@@ -155,6 +155,18 @@ function AnimatedRoutes() {
               <ProtectedRoute allowedRoles={["job_seeker"]}>
                 <AnimatedPage>
                   <JobSeekerDashboard />
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+          
+            path='/view-jobs'
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <ViewJobs />
                 </AnimatedPage>
               </ProtectedRoute>
             }
