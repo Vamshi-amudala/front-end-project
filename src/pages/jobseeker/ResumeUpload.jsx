@@ -174,7 +174,7 @@ export const ResumeUpload = () => {
 
         <div className="mb-4">
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-800 mb-2">
+            <label className="block text-sm font-medium text-gray-8clea00 mb-2">
               Select Resume (PDF, DOC, DOCX)
             </label>
             <input
