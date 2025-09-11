@@ -13,3 +13,19 @@ html {
                0 0 20px rgba(255,255,255,0.1),
                0 0 30px rgba(255,255,255,0.2);
 }
+
+.scrollable::-webkit-scrollbar {
+  display: none;
+}
+.scrollable {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}

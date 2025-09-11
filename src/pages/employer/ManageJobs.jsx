@@ -36,76 +36,70 @@ export const ManageJobs = () => {
         src="/images/manage-jobs.png"
         alt="manage-jobs"
         className="absolute inset-0 w-full h-full object-cover blur-sm"
-        initial={{ scale:1.4}}
+        initial={{ scale: 1.4 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 10, ease:"easeInOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 1 }}
+        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 1 }}
       />
       <motion.div className="absolute inset-0 bg-black/40 backdrop-brightness-90"></motion.div>
 
-
       <div className="absolute inset-0 p-10 overflow-auto mt-10">
-        <motion.h1 className="text-4xl text-white font-bold mb-6 text-center mt-3 font-serif"
-        initial={{ y:-50, opacity: 0.5 }}
-        animate={{ y:0, opacity: 1 }}
-        transition={{ duration: 1 }}
-        >Manage Jobs</motion.h1>
+        <motion.h1 
+          className="text-4xl text-white font-bold mb-6 text-center mt-3 font-serif"
+          initial={{ y: -50, opacity: 0.5 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          Manage Jobs
+        </motion.h1>
 
         {loading && <p className="text-white">Loading jobs...</p>}
         {!loading && !jobs.length && <p className="text-gray-300">You haven’t posted any jobs yet.</p>}
 
-        <div className="grid grid-rows-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-5  ">
+        <div className="grid grid-rows-1 md:grid-cols-2 lg:grid-cols-2 gap-6 p-5">
           {jobs.map(job => (
-           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            key={job.id}
-            className="border-gray-300 filter p-10 cursor-pointer hover:scale-105 transition-transform glassmorphism rounded-2xl shadow-xl bg-white/15 border-white/40 backdrop-blur-lg"
-            whileHover={{ scale: 1.05 }}
-            onClick={() => setSelectedJob(job)}
-          >
+            <motion.div
+              key={job.id}
+              className="p-10 cursor-pointer rounded-2xl shadow-xl bg-white/15 border border-white/40 backdrop-blur-lg"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ scale: 1.03 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
+              onClick={() => setSelectedJob(job)}
+            >
+              <h2 className="text-2xl font-bold text-slate-100 font-sans tracking-wide">
+                {job.title}{" "}
+                <small
+                  className={job.status === "OPEN"
+                    ? "text-emerald-400 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)]"
+                    : "text-red-400"}
+                >
+                  ({job.status})
+                </small>
+              </h2>
 
-  <h2 className="text-2xl font-bold text-slate-100 font-sans tracking-wide">
-    {job.title}{" "}
-    <small
-      className={
-        job.status === "OPEN"
-          ? "text-emerald-400 drop-shadow-[0_0_6px_rgba(16,185,129,0.6)]"
-          : "text-red-400"
-      }
-    >
-      ({job.status})
-    </small>
-  </h2>
+              <p className="mt-3 text-gray-200">
+                <span className="text-gray-400 font-semibold">Company:</span>{" "}
+                <span className="text-slate-100">{job.company}</span> |{" "}
+                <span className="text-gray-400 font-semibold">Package:</span>{" "}
+                <span className="text-emerald-300 font-medium">{job.salary}</span>
+              </p>
 
+              <p className="mt-1 text-gray-200">
+                <span className="text-gray-400 font-semibold">Location:</span>{" "}
+                <span className="text-slate-100">{job.location}</span> |{" "}
+                <span className="text-gray-400 font-semibold">Experience:</span>{" "}
+                <span className="text-sky-300 font-medium">{job.exp} yrs</span>
+              </p>
 
-  <p className="mt-3">
-    <span className="text-gray-400 font-semibold">Company:</span>{" "}
-    <span className="text-slate-100">{job.company}</span> |{" "}
-    <span className="text-gray-400 font-semibold">Package:</span>{" "}
-    <span className="text-emerald-300 font-medium">{job.salary}</span>
-  </p>
-
-
-  <p className="mt-1">
-    <span className="text-gray-400 font-semibold">Location:</span>{" "}
-    <span className="text-slate-100">{job.location}</span> |{" "}
-    <span className="text-gray-400 font-semibold">Experience:</span>{" "}
-    <span className="text-sky-300 font-medium">{job.exp} yrs</span>
-  </p>
-
-
-  <p className="mt-3 leading-relaxed">
-    <span className="text-gray-300 font-bold">Requirements:</span>{" "}
-    <span className="text-gray-200 font-sans">{job.description}</span>
-  </p>
-</motion.div>
-
+              <p className="mt-3 leading-relaxed text-gray-200">
+                <span className="text-gray-300 font-bold">Requirements:</span>{" "}
+                {job.description}
+              </p>
+            </motion.div>
           ))}
         </div>
       </div>
 
-     
       <AnimatePresence>
         {selectedJob && (
           <motion.div

@@ -11,7 +11,6 @@ export const EmployerDashboard = () => {
   const [applications, setApplications] = useState([]);
   const [profile, setProfile] = useState(null);
 
-
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -45,7 +44,6 @@ export const EmployerDashboard = () => {
     fetchProfile();
   }, []);
 
-
   const pendingApplications = applications.filter(
     app => app.status === "UNDER_REVIEW" || app.status === "APPLIED"
   );
@@ -53,8 +51,7 @@ export const EmployerDashboard = () => {
   const totalApplications = applications;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br">
-    
+    <div className="absolute w-full h-screen overflow-hidden bg-gradient-to-br">
       <motion.img
         src="/images/emp-dash.png"
         className="w-full h-full object-cover blur-sm scale-110"
@@ -65,10 +62,9 @@ export const EmployerDashboard = () => {
       />
 
       <motion.div
-        className="absolute inset-0 z-10 gap-4 bg-black/40 backdrop-brightness-90 p-6 overflow-y-auto"
+        className="absolute inset-0 z-10 gap-4 bg-black/40 backdrop-brightness-90 p-6 overflow-hidden"
         transition={{ duration: 1 }}
       >
-     
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -77,9 +73,7 @@ export const EmployerDashboard = () => {
         >
           Welcome back, {profile?.fullName || "Employer"}!
         </motion.h1>
-        
 
-       
         <section className="mb-6">
           <StatsCards>
             {[
@@ -99,21 +93,18 @@ export const EmployerDashboard = () => {
           </StatsCards>
         </section>
 
-        
-          <p className="text-2xl text-gray-300 mt-8 text-center font-serif">
-            Here’s a snapshot of your hiring progress. Stay on top of your applications and active jobs!
-          </p>
+        <p className="text-2xl text-gray-300 mt-8 text-center font-serif">
+          Here’s a snapshot of your hiring progress. Stay on top of your applications and active jobs!
+        </p>
+
         {profile && (
-         <motion.div
-            className="text-center p-1 text-gray-300  flex flex-col items-center  font-mono rounded-lg w-full h-full max-w-md mx-auto  mt-8"
+          <motion.div
+            className="text-center p-1 text-gray-300 flex flex-col items-center font-mono rounded-lg w-full h-full max-w-md mx-auto mt-8"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-
-
             <h2 className="text-4xl font-semibold bg-white/10 rounded-xl hover:scale-105 duration-500 cursor-pointer p-4">{profile.fullName}</h2>
-            {/* <p className="text-2xl mt-3">{profile.email}</p> */}
             {profile.companyName && <p className="text-2xl mt-3">{profile.companyName}</p>}
             <div className="mt-8 flex gap-5 font-sans justify-center">
               <button
@@ -130,7 +121,6 @@ export const EmployerDashboard = () => {
               </button>
             </div>
           </motion.div>
-
         )}
       </motion.div>
     </div>

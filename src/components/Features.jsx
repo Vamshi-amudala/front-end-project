@@ -32,7 +32,7 @@ export const Features = () => {
           <motion.h1 className="text-gray-200 text-5xl font-bold mb-10 drop-shadow-lg text-glow"
           initial={{opacity:0, scale:0.7}}
           animate={{opacity:1, scale:1}}
-          transition={{duration:1.2, ease:"easeInOut", repeat:Infinity, repeatType:"reverse"}}
+          transition={{duration:1.2, ease:"easeInOut"}}
 
           >
             Why Choose CareerForge

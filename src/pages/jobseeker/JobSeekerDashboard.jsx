@@ -4,20 +4,53 @@ import axios from "axios";
 
 export const JobSeekerDashboard = () => {
   const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch applications
-    axios.get("/api/applications/my", { withCredentials: true })
-      .then(res => setApplications(res.data))
-      .catch(err => console.error(err));
+    axios
+      .get("/api/applications/my", { withCredentials: true })
+      .then((res) => {
+        // Normalize API response
+        const apps = Array.isArray(res.data)
+          ? res.data
+          : res.data?.applications || [];
+        setApplications(apps);
+      })
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false));
   }, []);
 
   const statuses = [
-    { key: "APPLIED", label: "Applied", border: "border-blue-500", text: "text-blue-500" },
-    { key: "UNDER_REVIEW", label: "Under Review", border: "border-yellow-500", text: "text-yellow-500" },
-    { key: "SELECTED", label: "Selected", border: "border-green-500", text: "text-green-500" },
-    { key: "REJECTED", label: "Rejected", border: "border-red-500", text: "text-red-500" },
-    { key: "WITHDRAWN", label: "Withdrawn", border: "border-gray-500", text: "text-gray-500" },
+    {
+      key: "APPLIED",
+      label: "Applied",
+      border: "border-blue-500",
+      text: "text-blue-500",
+    },
+    {
+      key: "UNDER_REVIEW",
+      label: "Under Review",
+      border: "border-yellow-500",
+      text: "text-yellow-500",
+    },
+    {
+      key: "SELECTED",
+      label: "Selected",
+      border: "border-green-500",
+      text: "text-green-500",
+    },
+    {
+      key: "REJECTED",
+      label: "Rejected",
+      border: "border-red-500",
+      text: "text-red-500",
+    },
+    {
+      key: "WITHDRAWN",
+      label: "Withdrawn",
+      border: "border-gray-500",
+      text: "text-gray-500",
+    },
   ];
 
   const statusCounts = applications.reduce((acc, app) => {
@@ -34,7 +67,12 @@ export const JobSeekerDashboard = () => {
         className="w-full h-full object-cover brightness-50 blur-sm absolute top-0 left-0 z-0"
         initial={{ scale: 1.3 }}
         animate={{ scale: 1 }}
-        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+        transition={{
+          duration: 10,
+          ease: "easeInOut",
+          repeat: Infinity,
+          repeatType: "reverse",
+        }}
       />
 
       {/* Dashboard Title */}
@@ -58,7 +96,9 @@ export const JobSeekerDashboard = () => {
             transition={{ delay: 0.2 * i }}
           >
             <h2 className={`text-2xl font-bold ${status.text}`}>
-              {status.key === "APPLIED" ? applications.length : statusCounts[status.key] || 0}
+              {status.key === "APPLIED"
+                ? applications.length
+                : statusCounts[status.key] || 0}
             </h2>
             <p className={`capitalize ${status.text}`}>{status.label}</p>
           </motion.div>
@@ -72,17 +112,26 @@ export const JobSeekerDashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <h2 className="text-xl text-white font-semibold mb-2">Recent Applications</h2>
-        {applications.length === 0 ? (
+        <h2 className="text-xl text-white font-semibold mb-2">
+          Recent Applications
+        </h2>
+
+        {loading ? (
+          <p className="text-sm text-gray-300">Loading applications...</p>
+        ) : applications.length === 0 ? (
           <p className="text-sm text-gray-300">No applications submitted yet.</p>
         ) : (
           <ul className="text-gray-100">
-            {applications.slice(0, 5).map(app => (
+            {applications.slice(0, 5).map((app) => (
               <li key={app.id} className="mb-1">
-                {app.jobTitle} - {app.status.replace("_", " ")}
+                {app.jobTitle} - {app.status.replaceAll("_", " ")}
               </li>
             ))}
-            {applications.length > 5 && <li className="text-sm text-gray-400">+{applications.length - 5} more</li>}
+            {applications.length > 5 && (
+              <li className="text-sm text-gray-400">
+                +{applications.length - 5} more
+              </li>
+            )}
           </ul>
         )}
       </motion.div>

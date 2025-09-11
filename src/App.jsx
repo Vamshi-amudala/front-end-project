@@ -25,6 +25,12 @@ import { ViewApplicants } from './pages/employer/ViewApplicants';
 import { Profile } from './pages/employer/Profile';
 import { UpdateProfile } from './pages/employer/UpdateProfile';
 import { ViewJobs } from './pages/jobseeker/ViewJobs';
+import { JobCard } from './pages/jobseeker/JobCard';
+import { Applications } from './pages/jobseeker/Applications';
+import { Profile as JobSeekerProfile } from './pages/jobseeker/Profile';
+import { UpdateProfile as UpdateJobseeker } from './pages/jobseeker/UpdateProfile';
+
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -170,8 +176,50 @@ function AnimatedRoutes() {
                 </AnimatedPage>
               </ProtectedRoute>
             }
+          />  
+          <Route
+            path="/job-card/:id"
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <JobCard />
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+          />  
+
+          <Route
+            path='/applications'
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <Applications/>
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
           />
 
+            <Route
+            path='/job-profile'
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <JobSeekerProfile/>
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+            />          
+              <Route
+            path='/job-profile/edit'
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <UpdateJobseeker/>
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+            />
+  
           <Route
             path="/employer-dashboard"
             element={
