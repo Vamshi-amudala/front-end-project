@@ -49,6 +49,44 @@ export const ViewApplicants = () => {
       });
   };
 
+  
+const handleViewResume = async (resumeUrl) => {
+  if (!resumeUrl) return;
+
+  const filename = resumeUrl.split('/').pop();
+  const viewUrl = `/api/resume/view/${filename}`;
+
+  try {
+    const response = await fetch(viewUrl, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+      }
+    });
+
+    if (!response.ok) {
+      alert("❌ Failed to load resume.");
+      return;
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+
+  } catch (err) {
+    console.error("Error viewing resume:", err);
+    alert("❌ Error loading resume.");
+  }
+};
+
   const jobTitles = [...new Set(applications.map((app) => app.job.title))];
 
   const filteredApps = applications.filter((app) => {
@@ -188,13 +226,15 @@ export const ViewApplicants = () => {
                 </div>
 
                 <a
-                  href={app.resumeUrl}
+                  href={`/api/resume/view/application/${app.resumeUrl.split('/').pop()}`}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-block mt-2 text-emerald-300 hover:underline cursor-pointer"
                 >
                   📄 View Resume
                 </a>
+
+
               </motion.div>
             ))
           )}

@@ -90,7 +90,7 @@ export const JobCard = () => {
                   onClick={handleApply}
                   disabled={applying}
                 >
-                  {applying ? "Applying..." : "Apply Now"}
+                  <span className="animate-spin">{applying ? "Applying...." : "Apply Now"}</span>
                 </button>
                 <button
                   className="border-2 border-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg hover:scale-105 duration-300 transition-colors"

@@ -1,52 +1,37 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import axios from "axios";
 
 export const ViewJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
   const [sortBy, setSortBy] = useState("");
   const navigate = useNavigate();
 
-  // Fetch jobs from backend
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/api/jobs", {
+        const res = await axios.get("http://localhost:8080/api/applications/available", {
           withCredentials: true,
         });
-        const data = Array.isArray(res.data) ? res.data : [];
-        setJobs(data);
-      } catch (error) {
-        toast.error("Error fetching jobs");
+        setJobs(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.error("Error fetching available jobs:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchJobs();
   }, []);
 
-  // Debounce search input
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(searchTerm);
-    }, 400); // shorter delay for better UX
-
-    return () => clearTimeout(handler);
-  }, [searchTerm]);
-
-  // Filter and sort jobs
   const filteredJobs = jobs
     .filter(
       (job) =>
-        job.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        job.company.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-        job.location.toLowerCase().includes(debouncedSearch.toLowerCase())
+        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        job.location.toLowerCase().includes(searchTerm.toLowerCase())
     )
     .sort((a, b) => {
       if (sortBy === "title") return a.title.localeCompare(b.title);
@@ -58,24 +43,20 @@ export const ViewJobs = () => {
 
   return (
     <div className="relative h-full w-full overflow-auto">
-      {/* Background Image */}
       <motion.img
         src="/images/post-job.png"
         alt="view jobs"
-        className="fixed h-full w-full object-cover blur-sm brightness-50 "
+        className="fixed h-full w-full object-cover blur-sm brightness-50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       />
 
-      
-      <div className="relative z-10 min-h-screen p-8 flex flex-col items-center ">
-        
+      <div className="relative z-10 min-h-screen p-8 flex flex-col items-center">
         <h1 className="text-white text-4xl font-mono font-extrabold mb-8 text-center tracking-wide mt-12">
-           Active Jobs
+          Active Jobs
         </h1>
 
-        
         <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full max-w-6xl">
           <input
             type="text"
@@ -97,24 +78,16 @@ export const ViewJobs = () => {
           </select>
         </div>
 
-        {/* Jobs Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-8 w-full max-w-6xl">
           {loading ? (
-            <p className="text-white col-span-full text-xl text-center">
-              Loading jobs...
-            </p>
+            <p className="text-white col-span-full text-xl text-center">Loading jobs...</p>
           ) : filteredJobs.length === 0 ? (
-            <p className="text-white col-span-full text-xl text-center">
-              No jobs found.
-            </p>
+            <p className="text-white col-span-full text-xl text-center">No jobs found.</p>
           ) : (
             filteredJobs.map((job) => (
               <motion.div
                 key={job.id}
-                className="bg-white/15 p-6 rounded-xl text-white cursor-pointer shadow-lg backdrop-blur-md
-           transform transition-transform duration-300 hover:scale-105 hover:bg-white/20 hover:z-10 relative"
-
-
+                className="bg-white/15 p-6 rounded-xl text-white cursor-pointer shadow-lg backdrop-blur-md transform transition-transform duration-300 hover:scale-105 hover:bg-white/20 hover:z-10 relative"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
@@ -123,11 +96,8 @@ export const ViewJobs = () => {
                 <h2 className="text-2xl mb-2 text-emerald-400 font-mono font-extrabold">
                   {job.title}
                 </h2>
-                <p className="text-lg font-medium text-yellow-300 mb-1">
-                  {job.company}
-                </p>
+                <p className="text-lg font-medium text-yellow-300 mb-1">{job.company}</p>
                 <p className="text-gray-300 text-sm mb-3">{job.location}</p>
-
                 <p className="text-gray-200 text-sm mb-3 line-clamp-4">
                   <span className="font-semibold">Description: </span>
                   {job.description}
@@ -135,10 +105,10 @@ export const ViewJobs = () => {
 
                 <div className="flex justify-between items-center text-gray-100 text-sm mt-4">
                   <p className="bg-emerald-600/40 px-3 py-1 rounded-full text-sm">
-                     Salary: {job.salary}
+                    Salary: {job.salary}
                   </p>
                   <p className="bg-red-600/40 px-3 py-1 rounded-full text-sm">
-                     Exp: {job.exp} yrs
+                    Exp: {job.exp} yrs
                   </p>
                 </div>
               </motion.div>

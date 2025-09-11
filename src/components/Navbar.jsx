@@ -31,8 +31,8 @@ export const Navbar = () => {
     { title: "Dashboard", path: "/jobseeker-dashboard" },
     { title: "View Jobs", path: "/view-jobs" },
     { title: "Applications", path: "/applications" },
-    // { title: "Resume", path: "/resume" },
     { title: "Profile", path: "/job-profile" },
+    { title: "Resume", path: "/resume" },
   ];
 
   // Determine which links to show

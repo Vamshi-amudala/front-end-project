@@ -29,6 +29,7 @@ import { JobCard } from './pages/jobseeker/JobCard';
 import { Applications } from './pages/jobseeker/Applications';
 import { Profile as JobSeekerProfile } from './pages/jobseeker/Profile';
 import { UpdateProfile as UpdateJobseeker } from './pages/jobseeker/UpdateProfile';
+import {  ResumeUpload } from './pages/jobseeker/ResumeUpload';
 
 
 import {
@@ -39,6 +40,7 @@ import {
   useNavigate
 } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+// import { ResumeUpload } from './pages/jobseeker/ResumeUpload';
 
 const pageVariants = {
   slideLeft: {
@@ -215,6 +217,16 @@ function AnimatedRoutes() {
               <ProtectedRoute allowedRoles={["job_seeker"]}>
                 <AnimatedPage>
                   <UpdateJobseeker/>
+                </AnimatedPage>
+              </ProtectedRoute>
+            }
+            />
+            <Route
+            path='/resume'
+            element={
+              <ProtectedRoute allowedRoles={["job_seeker"]}>
+                <AnimatedPage>
+                  <ResumeUpload/>
                 </AnimatedPage>
               </ProtectedRoute>
             }
