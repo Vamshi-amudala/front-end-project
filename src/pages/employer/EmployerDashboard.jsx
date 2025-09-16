@@ -51,7 +51,7 @@ export const EmployerDashboard = () => {
   const totalApplications = applications;
 
   return (
-    <div className="absolute w-full h-screen overflow-hidden bg-gradient-to-br">
+    <div className="absolute w-full min-h-screen overflow-hidden bg-gradient-to-br">
       <motion.img
         src="/images/emp-dash.png"
         className="w-full h-full object-cover blur-sm scale-110"
@@ -62,19 +62,19 @@ export const EmployerDashboard = () => {
       />
 
       <motion.div
-        className="absolute inset-0 z-10 gap-4 bg-black/40 backdrop-brightness-90 p-6 overflow-hidden"
+        className="absolute inset-0 z-10 gap-4 bg-black/40 backdrop-brightness-90 p-4 sm:p-6 lg:p-8 overflow-hidden"
         transition={{ duration: 1 }}
       >
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-4xl text-white font-extrabold mb-6 mt-20 text-center"
+          className="text-2xl sm:text-3xl lg:text-4xl text-white font-extrabold mb-4 sm:mb-6 mt-16 sm:mt-18 lg:mt-20 text-center px-2"
         >
           Welcome back, {profile?.fullName || "Employer"}!
         </motion.h1>
 
-        <section className="mb-6">
+        <section className="mb-4 sm:mb-6">
           <StatsCards>
             {[
               { title: "Active Jobs", count: activeJobs.length, color:"gray" },
@@ -93,29 +93,29 @@ export const EmployerDashboard = () => {
           </StatsCards>
         </section>
 
-        <p className="text-2xl text-gray-300 mt-8 text-center font-serif">
-          Here’s a snapshot of your hiring progress. Stay on top of your applications and active jobs!
+        <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mt-6 sm:mt-8 text-center font-serif px-2">
+          Here's a snapshot of your hiring progress. Stay on top of your applications and active jobs!
         </p>
 
         {profile && (
           <motion.div
-            className="text-center p-1 text-gray-300 flex flex-col items-center font-mono rounded-lg w-full h-full max-w-md mx-auto mt-8"
+            className="text-center p-1 text-gray-300 flex flex-col items-center font-mono rounded-lg w-full h-full max-w-xs sm:max-w-md lg:max-w-lg mx-auto mt-6 sm:mt-8 px-2"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h2 className="text-4xl font-semibold bg-white/10 rounded-xl hover:scale-105 duration-500 cursor-pointer p-4">{profile.fullName}</h2>
-            {profile.companyName && <p className="text-2xl mt-3">{profile.companyName}</p>}
-            <div className="mt-8 flex gap-5 font-sans justify-center">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold bg-white/10 rounded-xl hover:scale-105 duration-500 cursor-pointer p-3 sm:p-4">{profile.fullName}</h2>
+            {profile.companyName && <p className="text-lg sm:text-xl lg:text-2xl mt-2 sm:mt-3">{profile.companyName}</p>}
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-5 font-sans justify-center w-full">
               <button
                 onClick={() => navigate("/profile")}
-                className="px-4 py-2 border-2 border-teal-700 rounded-lg hover:bg-teal-500 hover:scale-105 transition-transform duration-1000 text-white"
+                className="px-3 sm:px-4 py-2 border-2 border-teal-700 rounded-lg hover:bg-teal-500 hover:scale-105 transition-transform duration-1000 text-white text-sm sm:text-base w-full sm:w-auto"
               >
                 View Full Profile
               </button>
               <button
                 onClick={() => navigate("/profile/edit")}
-                className="px-4 py-2 border-2 border-yellow-600 rounded-lg hover:bg-orange-600 hover:scale-105 transition-transform duration-1000 text-white"
+                className="px-3 sm:px-4 py-2 border-2 border-yellow-600 rounded-lg hover:bg-orange-600 hover:scale-105 transition-transform duration-1000 text-white text-sm sm:text-base w-full sm:w-auto"
               >
                 Update Profile
               </button>

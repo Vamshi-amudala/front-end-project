@@ -78,7 +78,7 @@ export default function ResetPassword() {
   const handleResendOTP = () => alert("OTP sent to your email!");
 
   return (
-    <div className="relative w-full h-screen flex justify-center items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900">
+    <div className="relative w-full min-h-screen flex justify-center items-center overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-emerald-900 px-4 sm:px-6 lg:px-8 py-8">
       <motion.img
         src="/images/login-page.jpg"
         alt="Background"
@@ -90,11 +90,11 @@ export default function ResetPassword() {
       <div className="absolute w-full h-full bg-gradient-to-br from-emerald-900/30 via-gray-900/50 to-teal-900/40 animate-pulse" />
       <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-black/30 to-emerald-900/50" />
 
-      <div className="relative z-10 w-full max-w-md bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-8 shadow-2xl backdrop-brightness-75">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white drop-shadow-lg">
+      <div className="relative z-10 w-full max-w-sm sm:max-w-md lg:max-w-lg bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-2xl backdrop-brightness-75">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">
             Reset Password
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-400 to-sky-400 text-base mt-2 font-medium">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-400 to-sky-400 text-sm sm:text-base mt-2 font-medium">
               Almost there! Set your new password 🔐
             </span>
           </h2>
@@ -120,12 +120,12 @@ export default function ResetPassword() {
             maxLength="6"
             {...register("otp")}
             placeholder="Enter 6-digit OTP"
-            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 text-center text-lg tracking-widest"
+            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 text-center text-base sm:text-lg tracking-widest"
           />
           <button
             type="button"
             onClick={handleResendOTP}
-            className="text-xs text-emerald-300 hover:text-emerald-200 mt-2 transition-colors"
+            className="text-xs text-emerald-300 hover:text-emerald-200 mt-2 transition-colors block w-full text-center sm:text-left sm:inline"
           >
             Didn't receive OTP? Resend
           </button>
@@ -138,7 +138,7 @@ export default function ResetPassword() {
             type={showNewPassword ? "text" : "password"}
             {...register("newPassword")}
             placeholder="Enter your new password"
-            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 pr-12"
+            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 pr-12 text-sm sm:text-base"
           />
           <button
             type="button"
@@ -150,13 +150,13 @@ export default function ResetPassword() {
         </div>
 
         {/* Confirm Password */}
-        <div className="mb-6 relative">
+        <div className="mb-4 sm:mb-6 relative">
           <label className="block text-white/90 text-sm mb-2">Confirm New Password</label>
           <input
             type={showConfirmPassword ? "text" : "password"}
             {...register("confirmPassword")}
             placeholder="Confirm your new password"
-            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 pr-12"
+            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/5 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition-all duration-300 pr-12 text-sm sm:text-base"
           />
           <button
             type="button"
@@ -170,7 +170,7 @@ export default function ResetPassword() {
         <button
           onClick={handleSubmit(onSubmit)}
           disabled={isSubmitting}
-          className="w-full bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:transform-none shadow-lg mb-6"
+          className="w-full bg-gradient-to-r from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 disabled:from-gray-500 disabled:to-gray-600 text-white font-semibold py-3 rounded-xl transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:transform-none shadow-lg mb-4 sm:mb-6 text-sm sm:text-base"
         >
           {isSubmitting ? "Resetting Password..." : "Reset Password"}
         </button>

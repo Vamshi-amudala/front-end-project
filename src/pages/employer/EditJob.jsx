@@ -62,7 +62,7 @@ export const EditJob = () => {
   };
 
   return (
-    <div className="relative w-full flex items-start justify-center bg-gray-900 overflow-hidden pt-24 pb-6 min-h-[80vh]">
+    <div className="relative w-full flex items-start justify-center bg-gray-900 overflow-hidden pt-16 sm:pt-20 lg:pt-24 pb-6 min-h-[80vh] px-4 sm:px-6 lg:px-8">
       
       <motion.img
         src="/images/post-job.png"
@@ -75,33 +75,33 @@ export const EditJob = () => {
       <motion.div className="absolute inset-0 bg-black/50" />
 
      
-      <div className="relative z-10 w-full max-w-md p-6 glassmorphism rounded-xl shadow-xl backdrop-blur-md bg-white/10 border border-white/20">
-        <motion.h1 className="text-white text-3xl font-bold text-center mb-6">Edit Job</motion.h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
-          <input {...register("title")} placeholder="Job Title" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+      <div className="relative z-10 w-full max-w-sm sm:max-w-md lg:max-w-lg p-4 sm:p-6 lg:p-8 glassmorphism rounded-xl shadow-xl backdrop-blur-md bg-white/10 border border-white/20">
+        <motion.h1 className="text-white text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-6">Edit Job</motion.h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 sm:gap-4">
+          <input {...register("title")} placeholder="Job Title" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base" />
           {errors.title && <p className="text-red-400 text-sm">{errors.title.message}</p>}
 
-          <textarea {...register("description")} placeholder="Description" rows={3} className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <textarea {...register("description")} placeholder="Description" rows={3} className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base resize-none" />
           {errors.description && <p className="text-red-400 text-sm">{errors.description.message}</p>}
 
-          <input {...register("location")} placeholder="Location" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("location")} placeholder="Location" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base" />
           {errors.location && <p className="text-red-400 text-sm">{errors.location.message}</p>}
 
-          <input {...register("company")} placeholder="Company" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("company")} placeholder="Company" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base" />
           {errors.company && <p className="text-red-400 text-sm">{errors.company.message}</p>}
 
-          <input {...register("salary")} type="number" placeholder="Salary" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("salary")} type="number" placeholder="Salary" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base" />
           {errors.salary && <p className="text-red-400 text-sm">{errors.salary.message}</p>}
 
-          <input {...register("exp")} type="number" placeholder="Experience" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all" />
+          <input {...register("exp")} type="number" placeholder="Experience" className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/70 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base" />
           {errors.exp && <p className="text-red-400 text-sm">{errors.exp.message}</p>}
 
-          <select {...register("status")} className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all">
+          <select {...register("status")} className="input-field w-full p-3 bg-white/10 border border-white/30 rounded-xl placeholder-white/20 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all text-sm sm:text-base">
             <option value="OPEN" className="text-black">Open</option>
             <option value="CLOSED" className="text-black">Closed</option>
           </select>
 
-          <button type="submit" disabled={loading} className="w-full py-3 mt-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform disabled:opacity-50 disabled:cursor-not-allowed">
+          <button type="submit" disabled={loading} className="w-full py-3 mt-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base">
             {loading ? "Updating..." : "Update Job"}
           </button>
         </form>
@@ -116,7 +116,7 @@ export const EditJob = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-         toastClassName="!mt-20 !z-[10050]"
+         toastClassName="!mt-16 sm:!mt-20 lg:!mt-20 !z-[10050]"
       />
     </div>
   );
