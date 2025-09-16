@@ -10,6 +10,7 @@ export const JobCard = () => {
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [applying, setApplying] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false); // confirmation modal toggle
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -46,6 +47,7 @@ export const JobCard = () => {
       }
     } finally {
       setApplying(false);
+      setShowConfirm(false); // close modal after applying
     }
   };
 
@@ -87,10 +89,12 @@ export const JobCard = () => {
               <div className="flex flex-row justify-center items-center gap-5">
                 <button
                   className="border-2 border-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg hover:scale-105 duration-300 transition-colors"
-                  onClick={handleApply}
+                  onClick={() => setShowConfirm(true)}
                   disabled={applying}
                 >
-                  <span className="animate-spin">{applying ? "Applying...." : "Apply Now"}</span>
+                  <span className="animate-spin">
+                    {applying ? "Applying...." : "Apply Now"}
+                  </span>
                 </button>
                 <button
                   className="border-2 border-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg hover:scale-105 duration-300 transition-colors"
@@ -105,6 +109,41 @@ export const JobCard = () => {
           )}
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="bg-white/20 backdrop-blur-md p-6 rounded-xl shadow-lg text-white max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4">Confirm Application</h3>
+            <p className="mb-6">
+              Your <strong>resume from profile</strong> will be used for this
+              application. <br />
+              Do you want to continue or update your resume first?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="border-2 border-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="border-2 border-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg"
+                onClick={handleApply}
+                disabled={applying}
+              >
+                {applying ? "Applying..." : "Yes, Apply"}
+              </button>
+              <button
+                className="border-2 border-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
+                onClick={() => navigate("/resume")}
+              >
+                Update Resume
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
