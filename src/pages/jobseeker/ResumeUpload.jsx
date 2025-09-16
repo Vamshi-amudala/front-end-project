@@ -12,15 +12,15 @@ export const ResumeUpload = () => {
       try {
         const response = await fetch("/api/resume", {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token') || ''}` // Add auth if needed
+            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
           }
         });
         
         if (response.ok) {
           const data = await response.json();
-          console.log("Fetch response:", data); // Debug log
+          console.log("Fetch response:", data); 
           
-          // Handle the JSON response format from backend
+          
           if (data && data.resumeUrl) {
             setResumeUrl(data.resumeUrl);
           } else {
@@ -37,7 +37,7 @@ export const ResumeUpload = () => {
     fetchResume();
   }, []);
 
-  // Handle file upload
+  
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) {
@@ -45,14 +45,14 @@ export const ResumeUpload = () => {
       return;
     }
 
-    // Validate file type
+    
     const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!allowedTypes.includes(file.type)) {
       setMessage("⚠️ Please select a PDF or Word document.");
       return;
     }
 
-    // Validate file size (5MB limit)
+    
     if (file.size > 5 * 1024 * 1024) {
       setMessage("⚠️ File size must be less than 5MB.");
       return;
@@ -69,19 +69,19 @@ export const ResumeUpload = () => {
         method: 'POST',
         body: formData,
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token') || ''}` // Add auth if needed
+          'Authorization': `Bearer ${localStorage.getItem('token') || ''}` 
         }
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Upload response:", data); // Debug log
+        console.log("Upload response:", data); 
 
-        // Handle the JSON response from backend
+        
         if (data && data.resumeUrl) {
           setResumeUrl(data.resumeUrl);
           setMessage("✅ Resume uploaded successfully!");
-          setFile(null); // Clear the file input
+          setFile(null); 
         } else {
           setMessage("❌ Upload succeeded but no URL returned.");
         }
@@ -105,14 +105,14 @@ export const ResumeUpload = () => {
     }
   };
 
-  // Extract filename from the resumeUrl and construct the proper API endpoint
+
   const getViewUrl = (resumeUrl) => {
     if (!resumeUrl) return null;
     
-    // Extract filename from the path
+    
     const filename = resumeUrl.split('/').pop();
     
-    // Use the backend view endpoint with authentication
+    
     return `/api/resume/view/${filename}`;
   };
 
@@ -122,13 +122,13 @@ export const ResumeUpload = () => {
     
     console.log("Trying to open:", viewUrl);
     
-    // Create a temporary link with authentication headers
+    
     const link = document.createElement('a');
     link.href = viewUrl;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     
-    // For better browser support, we'll use fetch with blob response
+    
     handleAuthenticatedView(viewUrl);
   };
 
@@ -151,7 +151,7 @@ export const ResumeUpload = () => {
         link.click();
         document.body.removeChild(link);
         
-        // Clean up the blob URL
+        
         setTimeout(() => window.URL.revokeObjectURL(url), 1000);
       } else {
         setMessage("❌ Failed to load resume. Please try again.");
