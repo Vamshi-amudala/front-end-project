@@ -127,13 +127,17 @@ export const JobCard = () => {
               >
                 Cancel
               </button>
-              <button
-                className="border-2 border-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg"
-                onClick={handleApply}
-                disabled={applying}
-              >
-                {applying ? "Applying..." : "Yes, Apply"}
-              </button>
+            <button
+              className="border-2 border-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2"
+              onClick={handleApply}
+              disabled={applying}
+            >
+              {applying && (
+                <div className="w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></div>
+              )}
+              {applying ? "Applying..." : "Yes, Apply"}
+            </button>
+
               <button
                 className="border-2 border-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg"
                 onClick={() => navigate("/resume")}
