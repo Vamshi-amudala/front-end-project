@@ -101,7 +101,7 @@ export const Navbar = () => {
 
       {/* Auth buttons */}
       <div
-        className={`flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mt-2 sm:mt-0 ${
+        className={`flex flex-col sm:flex-row items-center gap-6 sm:gap-6 mt-2 sm:mt-0 ${
           menuOpen ? "block" : "hidden sm:flex"
         }`}
       >

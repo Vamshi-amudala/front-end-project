@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }) => {
           navigate("/home");
            toast.success("You have been logged out.");
         }, 1000);
-        // 
        
       };
 
